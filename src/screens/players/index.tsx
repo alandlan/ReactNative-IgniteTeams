@@ -1,6 +1,7 @@
 import { Header } from "@components/header";
 import { Container } from "./styles";
 import { Highlight } from "@components/highlight";
+import { ButtonIcon } from "@components/buttonicon";
 
 export function Players() {
     return (
@@ -11,6 +12,8 @@ export function Players() {
                 title="Jogadores"
                 subTitle="Aqui você encontra todos os jogadores cadastrados"
             />
+
+            <ButtonIcon />
         </Container>
     );
 }
