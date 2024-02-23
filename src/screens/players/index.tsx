@@ -1,7 +1,8 @@
 import { Header } from "@components/header";
-import { Container } from "./styles";
+import { Container, Form } from "./styles";
 import { Highlight } from "@components/highlight";
 import { ButtonIcon } from "@components/buttonicon";
+import { Input } from "@components/input";
 
 export function Players() {
     return (
@@ -13,7 +14,12 @@ export function Players() {
                 subTitle="Aqui você encontra todos os jogadores cadastrados"
             />
 
-            <ButtonIcon />
+            <Form>
+                <Input placeholder="Buscar jogadores" autoCorrect={false} />
+                <ButtonIcon icon="add" type="PRIMARY" />
+
+            </Form>
+
         </Container>
     );
 }
