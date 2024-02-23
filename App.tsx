@@ -6,6 +6,7 @@ import theme from "src/theme";
 import { Groups } from "@screens/groups";
 import { Loading } from "@components/loading";
 import { NewGroup } from "@screens/newgroup";
+import { Players } from "@screens/players";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -20,8 +21,9 @@ export default function App() {
         barStyle="light-content" 
         backgroundColor="transparent"
         translucent />
-      { fontsLoaded ? <Groups /> : <Loading/> }
+      {/* { fontsLoaded ? <Groups /> : <Loading/> } */}
       {/* { fontsLoaded ? <NewGroup /> : <Loading/> } */}
+      { fontsLoaded ? <Players /> : <Loading/> }
     </ThemeProvider>
   );
 }
