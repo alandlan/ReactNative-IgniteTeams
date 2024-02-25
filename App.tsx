@@ -3,10 +3,9 @@ import { ThemeProvider } from "styled-components";
 import { StatusBar } from "react-native";
 
 import theme from "src/theme";
-import { Groups } from "@screens/groups";
 import { Loading } from "@components/loading";
-import { NewGroup } from "@screens/newgroup";
-import { Players } from "@screens/players";
+
+import { Routes } from "@routes/index";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -23,7 +22,8 @@ export default function App() {
         translucent />
       {/* { fontsLoaded ? <Groups /> : <Loading/> } */}
       {/* { fontsLoaded ? <NewGroup /> : <Loading/> } */}
-      { fontsLoaded ? <Players /> : <Loading/> }
+      {/* { fontsLoaded ? <Players /> : <Loading/> } */}
+      { fontsLoaded ? <Routes /> : <Loading/> }
     </ThemeProvider>
   );
 }
