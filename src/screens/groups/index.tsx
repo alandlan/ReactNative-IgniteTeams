@@ -26,6 +26,10 @@ export function Groups(props: any) {
     }
   }
 
+  function handleGroupPress(group: string) {
+    navigation.navigate('players', {group});
+  }
+
   useFocusEffect(useCallback(() => {
     fetchGroups();
   }, []));
@@ -38,7 +42,7 @@ export function Groups(props: any) {
       <FlatList
         data={groups}
         keyExtractor={(item) => item}
-        renderItem={({ item }) => <GroupCard title={item} />}
+        renderItem={({ item }) => <GroupCard title={item} onPress={() => handleGroupPress(item)} />}
         contentContainerStyle={groups.length === 0 && {flex: 1}}
         ListEmptyComponent={() => <ListEmpty message="Nenhum grupo encontrado" />}
       />
