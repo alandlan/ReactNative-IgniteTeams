@@ -5,14 +5,35 @@ import { Button } from "@components/button";
 import { Input } from "@components/input";
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
+import { groupCreate } from "@storage/group/groupCreate";
+import { Alert } from "react-native";
+import { AppError } from "@utils/AppError";
 
 export function NewGroup() {
   const [group, setGroup] = useState('');
 
   const navigation = useNavigation();
 
-  function handleNewGroup() {
-    navigation.navigate('players', {group });
+  async function handleNewGroup() {
+    try {
+
+      if(!group || group.trim().length === 0){
+        throw new AppError('Nome do grupo é obrigatório');
+      }
+
+      await groupCreate(group);
+
+      navigation.navigate('players', {group });
+    }catch (error) {
+
+      if(error instanceof AppError) {
+        Alert.alert('Erro', error.message);
+      }else{
+        Alert.alert('Erro', 'Erro ao criar grupo');
+        console.log(error);
+      }
+
+    }
   }
 
   return (
