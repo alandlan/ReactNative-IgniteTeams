@@ -8,10 +8,11 @@ import { FlatList } from "react-native";
 import { useState } from "react";
 import { PlayerCard } from "@components/playercard";
 import { ListEmpty } from "@components/listempyt";
+import { Button } from "@components/button";
 
 export function Players() {
     const[team, setTeam ] = useState("Time A");
-    const[players, setPlayers] = useState(["Alan"]);
+    const[players, setPlayers] = useState([]);
 
     return (
         <Container>
@@ -48,9 +49,15 @@ export function Players() {
                 renderItem={({item}) => (
                     <PlayerCard name={item} onRemove={() => {}}/>
                 )}
+                showsVerticalScrollIndicator={false}
                 ListEmptyComponent={() => ( <ListEmpty message="Nenhum jogador encontrado."/>)}
+                contentContainerStyle={[
+                    {paddingBottom: 100},
+                    !players.length && {flex: 1}
+                ]}
             />
             
+            <Button title="Remover time" type="SECONDARY" />
 
         </Container>
     );
