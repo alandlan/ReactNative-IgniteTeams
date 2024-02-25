@@ -9,17 +9,25 @@ import { useState } from "react";
 import { PlayerCard } from "@components/playercard";
 import { ListEmpty } from "@components/listempyt";
 import { Button } from "@components/button";
+import { useRoute } from "@react-navigation/native";
+
+type RouteParams = {
+    group: string;
+}
 
 export function Players() {
     const[team, setTeam ] = useState("Time A");
     const[players, setPlayers] = useState([]);
+
+    const route = useRoute();
+    const { group } = route.params as RouteParams;
 
     return (
         <Container>
             <Header showBackButton />
 
             <Highlight
-                title="Jogadores"
+                title={group}
                 subTitle="Aqui você encontra todos os jogadores cadastrados"
             />
 
