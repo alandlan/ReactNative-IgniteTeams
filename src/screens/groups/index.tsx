@@ -6,9 +6,15 @@ import { useState } from 'react';
 import { FlatList } from 'react-native';
 import { ListEmpty } from '@components/listempyt';
 import { Button } from '@components/button';
+import { useNavigation } from '@react-navigation/native';
 
-export function Groups() {
+export function Groups(props: any) {
   const [groups, setGroups] = useState<string[]>([]);
+  const navigation = useNavigation();
+
+  function handleCreateGroup() {
+    navigation.navigate('newgroup');
+  }
 
   return (
     <Container>
@@ -23,7 +29,7 @@ export function Groups() {
         ListEmptyComponent={() => <ListEmpty message="Nenhum grupo encontrado" />}
       />
 
-      <Button title="Criar grupo" />
+      <Button title="Criar grupo" onPress={handleCreateGroup} />
       
     </Container>
   );
