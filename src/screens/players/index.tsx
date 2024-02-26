@@ -4,17 +4,15 @@ import { Highlight } from "@components/highlight";
 import { ButtonIcon } from "@components/buttonicon";
 import { Input } from "@components/input";
 import { Filter } from "@components/filter";
-import { Alert, FlatList } from "react-native";
-import { useEffect, useState } from "react";
+import { Alert, FlatList, TextInput } from "react-native";
+import { useEffect, useRef, useState } from "react";
 import { PlayerCard } from "@components/playercard";
 import { ListEmpty } from "@components/listempyt";
 import { Button } from "@components/button";
 import { useRoute } from "@react-navigation/native";
 import { PlayerStorageDTO } from "@storage/player/playerStorageDTO";
-import { err } from "react-native-svg";
 import { AppError } from "@utils/AppError";
 import { playerAddByGroup } from "@storage/player/playerAddByGroup";
-import { playersGetByGroup } from "@storage/player/playersGetByGroup";
 import { playerGetByGroupAndTeam } from "@storage/player/playerGetByGroupAndTeam";
 
 type RouteParams = {
@@ -28,6 +26,8 @@ export function Players() {
 
     const route = useRoute();
     const { group } = route.params as RouteParams;
+
+    const playerNameRef = useRef<TextInput>(null);
 
     async function handleAddPlayer() {
         if(playerName.trim().length === 0) {
@@ -43,6 +43,8 @@ export function Players() {
 
             await playerAddByGroup(player, group);
             fetchPlayerByTeam();
+            setPlayerName("");
+            playerNameRef.current?.blur();
             
         } catch (error) {
             if(error instanceof AppError) {
@@ -80,7 +82,14 @@ export function Players() {
             />
 
             <Form>
-                <Input onChangeText={setPlayerName} placeholder="Buscar jogadores" autoCorrect={false} />
+                <Input 
+                    inputRef={playerNameRef}
+                    onChangeText={setPlayerName} 
+                    placeholder="Buscar jogadores"
+                    value={playerName} 
+                    autoCorrect={false} 
+                    onSubmitEditing={handleAddPlayer}
+                    returnKeyType="done"/>
                 <ButtonIcon icon="add" type="PRIMARY" onPress={handleAddPlayer} />
             </Form>
 
