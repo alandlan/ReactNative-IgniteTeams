@@ -9,12 +9,13 @@ import { useEffect, useRef, useState } from "react";
 import { PlayerCard } from "@components/playercard";
 import { ListEmpty } from "@components/listempyt";
 import { Button } from "@components/button";
-import { useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { PlayerStorageDTO } from "@storage/player/playerStorageDTO";
 import { AppError } from "@utils/AppError";
 import { playerAddByGroup } from "@storage/player/playerAddByGroup";
 import { playerGetByGroupAndTeam } from "@storage/player/playerGetByGroupAndTeam";
 import { playerRemoveByGroup } from "@storage/player/playerRemoveByGroup";
+import { groupRemoveByName } from "@storage/group/groupRemoveByName";
 
 type RouteParams = {
     group: string;
@@ -29,6 +30,8 @@ export function Players() {
     const { group } = route.params as RouteParams;
 
     const playerNameRef = useRef<TextInput>(null);
+
+    const navigation = useNavigation();
 
     async function handleAddPlayer() {
         if(playerName.trim().length === 0) {
@@ -80,6 +83,39 @@ export function Players() {
                 console.log(error);
             }
         }
+    }
+
+    async function groupRemove() {
+        try {
+            await groupRemoveByName(group);
+            navigation.navigate("groups");
+        } catch (error) {
+            if(error instanceof AppError) {
+                Alert.alert(error.message);
+            }else{
+                console.log(error);
+            }
+        }
+    }
+
+    async function handleRemoveGroup() {
+        Alert.alert(
+            "Remover time",
+            "Deseja realmente remover o time?",
+            [
+                {
+                    text: "Cancelar",
+                    style: "cancel"
+                },
+                {
+                    text: "Remover",
+                    onPress: () => {
+                        groupRemove();
+                    }
+                }
+            ]
+        );
+    
     }
 
     useEffect(() => {
@@ -136,7 +172,7 @@ export function Players() {
                 ]}
             />
             
-            <Button title="Remover time" type="SECONDARY" />
+            <Button title="Remover time" type="SECONDARY" onPress={handleRemoveGroup} />
 
         </Container>
     );
