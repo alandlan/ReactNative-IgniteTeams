@@ -14,6 +14,7 @@ import { PlayerStorageDTO } from "@storage/player/playerStorageDTO";
 import { AppError } from "@utils/AppError";
 import { playerAddByGroup } from "@storage/player/playerAddByGroup";
 import { playerGetByGroupAndTeam } from "@storage/player/playerGetByGroupAndTeam";
+import { playerRemoveByGroup } from "@storage/player/playerRemoveByGroup";
 
 type RouteParams = {
     group: string;
@@ -68,6 +69,19 @@ export function Players() {
         }
     }
 
+    async function handleRemovePlayer(playerName: string) {
+        try {
+            await playerRemoveByGroup(playerName, group);
+            fetchPlayerByTeam();
+        } catch (error) {
+            if(error instanceof AppError) {
+                Alert.alert(error.message);
+            }else{
+                console.log(error);
+            }
+        }
+    }
+
     useEffect(() => {
         fetchPlayerByTeam();
     }, [team]);
@@ -112,7 +126,7 @@ export function Players() {
                 data={players}
                 keyExtractor={item => item.name}
                 renderItem={({item}) => (
-                    <PlayerCard name={item.name} onRemove={() => {}}/>
+                    <PlayerCard name={item.name} onRemove={() => handleRemovePlayer(item.name)}/>
                 )}
                 showsVerticalScrollIndicator={false}
                 ListEmptyComponent={() => ( <ListEmpty message="Nenhum jogador encontrado."/>)}
